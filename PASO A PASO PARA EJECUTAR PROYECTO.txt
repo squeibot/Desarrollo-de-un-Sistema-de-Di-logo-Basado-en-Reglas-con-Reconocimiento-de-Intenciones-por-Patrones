@@ -1,0 +1,220 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                                                                               ║
+║         REGEXBOT PRO - GUIA PARA EJECUTAR EL PROYECTO                         ║
+║                                                                               ║
+║         (Para copiar y pegar en Bloc de notas)                                ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+
+================================================================================
+PASO 1: ABRIR VISUAL STUDIO CODE
+================================================================================
+
+Haz doble clic en el ícono de Visual Studio Code en tu escritorio.
+
+
+================================================================================
+PASO 2: ABRIR LA CARPETA DEL PROYECTO
+================================================================================
+
+En VS Code:
+1. Haz clic en "Archivo" (menú superior)
+2. Haz clic en "Abrir carpeta"
+3. Busca y selecciona la carpeta: PROYECTO BOOTCAMP
+4. Haz clic en "Seleccionar carpeta"
+
+
+================================================================================
+PASO 3: ABRIR LA TERMINAL
+================================================================================
+
+En VS Code:
+1. Haz clic en "Terminal" (menú superior)
+2. Haz clic en "Nueva terminal"
+
+O usa el atajo: Ctrl + ` (tecla de la tilde, al lado del número 1)
+
+Se abrirá una ventana negra o azul en la parte inferior de VS Code.
+
+
+================================================================================
+PASO 4: VERIFICAR QUE ESTAS EN LA CARPETA CORRECTA
+================================================================================
+
+En la terminal debe aparecer esta ruta:
+
+PS C:\Users\camil\OneDrive\Escritorio\PROYECTO BOOTCAMP>
+
+Si no aparece, cierra la terminal y ábrela de nuevo desde VS Code.
+
+
+================================================================================
+PASO 5: EJECUTAR EL SERVIDOR
+================================================================================
+
+En la terminal, escribe EXACTAMENTE:
+
+python app.py
+
+Luego presiona la tecla ENTER.
+
+
+================================================================================
+PASO 6: ESPERAR A QUE EL SERVIDOR INICIE
+================================================================================
+
+Verás este mensaje en la terminal:
+
+==================================================
+  RegexBot Pro - Servidor Web
+  Abre: http://localhost:5000
+  Ctrl + C para cerrar
+==================================================
+ * Serving Flask app 'app'
+ * Debug mode: on
+ * Running on http://localhost:5000
+Press CTRL+C to quit
+ * Debugger PIN: 389-100-808
+
+⚠️ IMPORTANTE: NO CIERRES LA TERMINAL. El servidor debe quedarse abierto.
+
+
+================================================================================
+PASO 7: ABRIR EL NAVEGADOR
+================================================================================
+
+Abre uno de estos navegadores:
+- Google Chrome
+- Microsoft Edge
+- Mozilla Firefox
+- Opera
+
+
+================================================================================
+PASO 8: ESCRIBIR LA DIRECCION DEL CHAT
+================================================================================
+
+En la barra de direcciones del navegador (arriba, donde se escriben las páginas web),
+escribe EXACTAMENTE:
+
+http://localhost:5000
+
+Luego presiona la tecla ENTER.
+
+
+================================================================================
+PASO 9: VER LA INTERFAZ DEL CHAT
+================================================================================
+
+Verás una pantalla con:
+
+- Título: RegexBot Pro
+- Un mensaje de bienvenida del bot
+- Un cuadro de texto para escribir
+- Un botón azul que dice "Enviar"
+
+
+================================================================================
+PASO 10: PROBAR EL CHAT
+================================================================================
+
+Escribe cada una de estas frases y presiona ENTER:
+
+1. hola
+2. me llamo Camilo
+3. tengo 20 años
+4. vivo en Sincelejo
+5. como me llamo
+6. cuantos años tengo
+7. donde vivo
+8. que hora es
+9. recomiendame un libro
+10. chiste
+11. adios
+
+
+================================================================================
+RESPUESTAS ESPERADAS DEL BOT
+================================================================================
+
+Lo que escribes:               El bot responde:
+----------------------------------------------
+hola                           Hola! Como estas?
+me llamo Camilo                Encantado de conocerte, Camilo
+tengo 20 años                  20 años. Gracias.
+vivo en Sincelejo              Sincelejo es interesante
+como me llamo                  Te llamas Camilo
+cuantos años tengo             Tienes 20 años
+donde vivo                     Vives en Sincelejo
+que hora es                    Son las X:XX de la tarde
+recomiendame un libro          Te recomiendo Cien años de soledad
+chiste                         Por que los programadores confunden...
+adios                          Hasta luego Camilo. Fue un gusto.
+
+
+================================================================================
+PASO 11: VERIFICAR QUE FUNCIONA EN LA TERMINAL
+================================================================================
+
+Cuando escribes un mensaje en el chat, en la terminal de VS Code
+aparece una línea como esta:
+
+127.0.0.1 - - [10/Jun/2026 15:30:00] "POST /enviar HTTP/1.1" 200 -
+
+Eso significa que el servidor está recibiendo los mensajes correctamente.
+
+
+================================================================================
+PASO 12: COMO DETENER EL SERVIDOR
+================================================================================
+
+Cuando termines de usar el chatbot:
+
+1. Ve a la terminal de VS Code
+2. Presiona las teclas: Ctrl + C
+3. Espera a que se detenga
+4. Puedes cerrar VS Code
+
+
+================================================================================
+SOLUCION DE PROBLEMAS
+================================================================================
+
+PROBLEMA 1: 'python' no se reconoce
+SOLUCION: Reinstala Python y marca "Add Python to PATH"
+
+PROBLEMA 2: No se encuentra flask
+SOLUCION: En la terminal escribe: pip install flask
+
+PROBLEMA 3: Error de conexión en el chat
+SOLUCION: Asegúrate de que la terminal sigue abierta y el servidor corriendo
+
+PROBLEMA 4: La página no carga
+SOLUCION: Verifica que la URL sea http://localhost:5000 (no https)
+
+PROBLEMA 5: El bot no responde
+SOLUCION: Recarga la página con la tecla F5
+
+PROBLEMA 6: El puerto 5000 está ocupado
+SOLUCION: Cambia el puerto en app.py: port=5001
+         Luego abre http://localhost:5001
+
+
+================================================================================
+RESUMEN DE COMANDOS (para copiar y pegar en terminal)
+================================================================================
+
+# Instalar Flask (solo la primera vez)
+pip install flask
+
+# Ejecutar el servidor
+python app.py
+
+# Detener el servidor
+Ctrl + C
+
+
+================================================================================
+FIN DE LA GUIA
+================================================================================

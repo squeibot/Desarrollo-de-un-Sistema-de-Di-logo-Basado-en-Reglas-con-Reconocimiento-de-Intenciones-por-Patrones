@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RegexBot Pro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #1a1a2e;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chat-container {
+            width: 450px;
+            height: 700px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: #16213e;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .chat-header h1 {
+            font-size: 1.4rem;
+        }
+
+        .chat-header h1 span {
+            color: #ffc107;
+        }
+
+        .chat-header p {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .badge {
+            background: #ffc107;
+            color: #16213e;
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            margin-top: 8px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .message {
+            display: flex;
+            max-width: 80%;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-message {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+        }
+
+        .bubble {
+            padding: 10px 14px;
+            border-radius: 18px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .user-message .bubble {
+            background: #16213e;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .bot-message .bubble {
+            background: white;
+            color: #333;
+            border: 1px solid #ddd;
+            border-bottom-left-radius: 4px;
+        }
+
+        .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin: 0 8px;
+        }
+
+        .user-message .avatar {
+            background: #ffc107;
+            color: #16213e;
+        }
+
+        .bot-message .avatar {
+            background: #16213e;
+            color: white;
+        }
+
+        .typing {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 18px;
+            border-bottom-left-radius: 4px;
+            padding: 12px 16px;
+            display: flex;
+            gap: 4px;
+            width: fit-content;
+        }
+
+        .typing span {
+            width: 8px;
+            height: 8px;
+            background: #aaa;
+            border-radius: 50%;
+            animation: typingAnim 1.3s infinite;
+        }
+
+        .typing span:nth-child(2) { animation-delay: 0.2s; }
+        .typing span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingAnim {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-8px); opacity: 1; }
+        }
+
+        .chat-input {
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .chat-input input:focus {
+            border-color: #16213e;
+        }
+
+        .chat-input button {
+            background: #16213e;
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .help-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #ffc107;
+            color: #16213e;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            width: 350px;
+            border-radius: 20px;
+            padding: 20px;
+        }
+
+        .modal-content h3 {
+            color: #16213e;
+            margin-bottom: 15px;
+        }
+
+        .modal-content ul {
+            list-style: none;
+        }
+
+        .modal-content li {
+            padding: 6px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 0.8rem;
+        }
+
+        .modal-content li strong {
+            color: #16213e;
+        }
+
+        .close-modal {
+            background: #16213e;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 25px;
+            width: 100%;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="chat-header">
+        <h1>Regex<span>Bot</span> Pro</h1>
+        <p>Sistema de Dialogo Basado en Reglas</p>
+        <div class="badge">Python + Flask + Reconocimiento por patrones</div>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+        <div class="message bot-message">
+            <div class="avatar">B</div>
+            <div class="bubble">
+                Hola! Soy RegexBotPro (Python).<br>
+                Como te llamas? Dime "me llamo [tu nombre]"
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-input">
+        <input type="text" id="messageInput" placeholder="Escribe tu mensaje..." onkeypress="if(event.key==='Enter') enviarMensaje()">
+        <button onclick="enviarMensaje()">Enviar</button>
+    </div>
+</div>
+
+<div class="help-btn" onclick="mostrarAyuda()">?</div>
+
+<div id="modalAyuda" class="modal">
+    <div class="modal-content">
+        <h3>Comandos que entiendo</h3>
+        <ul>
+            <li><strong>hola</strong> - Saludar</li>
+            <li><strong>me llamo Juan</strong> - Guardar nombre</li>
+            <li><strong>tengo 20 anos</strong> - Guardar edad</li>
+            <li><strong>vivo en Madrid</strong> - Guardar ciudad</li>
+            <li><strong>soy ingeniero</strong> - Guardar profesion</li>
+            <li><strong>como me llamo</strong> - Preguntar nombre</li>
+            <li><strong>cuantos anos tengo</strong> - Preguntar edad</li>
+            <li><strong>donde vivo</strong> - Preguntar ciudad</li>
+            <li><strong>que hora es</strong> - Hora actual</li>
+            <li><strong>recomiendame un libro</strong> - Recomendar libro</li>
+            <li><strong>chiste</strong> - Contar chiste</li>
+            <li><strong>adios</strong> - Salir</li>
+        </ul>
+        <button class="close-modal" onclick="cerrarAyuda()">Cerrar</button>
+    </div>
+</div>
+
+<script>
+    let sessionId = localStorage.getItem('chatSessionId');
+    if (!sessionId) {
+        sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('chatSessionId', sessionId);
+    }
+
+    let esperandoRespuesta = false;
+
+    function agregarMensaje(texto, esUsuario) {
+        const contenedor = document.getElementById('chatMessages');
+        const div = document.createElement('div');
+        div.className = 'message ' + (esUsuario ? 'user-message' : 'bot-message');
+        
+        const avatar = document.createElement('div');
+        avatar.className = 'avatar';
+        avatar.textContent = esUsuario ? 'U' : 'B';
+        
+        const burbuja = document.createElement('div');
+        burbuja.className = 'bubble';
+        burbuja.textContent = texto;
+        
+        div.appendChild(avatar);
+        div.appendChild(burbuja);
+        contenedor.appendChild(div);
+        contenedor.scrollTop = contenedor.scrollHeight;
+    }
+
+    function mostrarEscribiendo() {
+        const contenedor = document.getElementById('chatMessages');
+        const div = document.createElement('div');
+        div.className = 'message bot-message';
+        div.id = 'typingIndicator';
+        
+        const avatar = document.createElement('div');
+        avatar.className = 'avatar';
+        avatar.textContent = 'B';
+        
+        const escribiendo = document.createElement('div');
+        escribiendo.className = 'typing';
+        escribiendo.innerHTML = '<span></span><span></span><span></span>';
+        
+        div.appendChild(avatar);
+        div.appendChild(escribiendo);
+        contenedor.appendChild(div);
+        contenedor.scrollTop = contenedor.scrollHeight;
+    }
+
+    function ocultarEscribiendo() {
+        const indicator = document.getElementById('typingIndicator');
+        if (indicator) indicator.remove();
+    }
+
+    async function enviarMensaje() {
+        if (esperandoRespuesta) return;
+        
+        const input = document.getElementById('messageInput');
+        const mensaje = input.value.trim();
+        if (mensaje === '') return;
+        
+        agregarMensaje(mensaje, true);
+        input.value = '';
+        esperandoRespuesta = true;
+        mostrarEscribiendo();
+        
+        try {
+            const response = await fetch('/enviar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ mensaje: mensaje, session_id: sessionId })
+            });
+            
+            const data = await response.json();
+            ocultarEscribiendo();
+            agregarMensaje(data.respuesta, false);
+            
+            if (data.finalizar) {
+                localStorage.removeItem('chatSessionId');
+                sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('chatSessionId', sessionId);
+            }
+        } catch (error) {
+            ocultarEscribiendo();
+            agregarMensaje('Error de conexion. Asegurate de que el servidor esta corriendo con "python app.py"', false);
+        } finally {
+            esperandoRespuesta = false;
+            input.focus();
+        }
+    }
+
+    function mostrarAyuda() {
+        document.getElementById('modalAyuda').style.display = 'flex';
+    }
+
+    function cerrarAyuda() {
+        document.getElementById('modalAyuda').style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        const modal = document.getElementById('modalAyuda');
+        if (event.target === modal) modal.style.display = 'none';
+    }
+</script>
+</body>
+</html>

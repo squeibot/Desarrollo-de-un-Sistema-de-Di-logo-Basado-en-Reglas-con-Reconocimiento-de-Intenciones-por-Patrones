@@ -1,0 +1,45 @@
+[
+  {
+    "fecha": "2026-06-04T17:18:08.034388",
+    "usuario": {
+      "nombre": "Maicol",
+      "edad": "20",
+      "ciudad": "Sincelejo",
+      "ocupacion": "Ingeniero",
+      "intereses": [],
+      "turnos_hablados": 14
+    },
+    "historial": [
+      {
+        "usuario": "recomiendame una pelicula",
+        "sistema": "Matrix es una pelicula que te hara pensar.",
+        "intencion": "recomendar_pelicula",
+        "timestamp": "2026-06-04T16:54:43.806503"
+      },
+      {
+        "usuario": "que me recomiendas",
+        "sistema": "Puedo recomendarte una pelicula o un libro. Cual prefieres?",
+        "intencion": "recomendar_general",
+        "timestamp": "2026-06-04T16:54:43.807868"
+      },
+      {
+        "usuario": "que hora es",
+        "sistema": "Son las 4:54 de la tarde.",
+        "intencion": "consultar_hora",
+        "timestamp": "2026-06-04T16:54:43.811181"
+      },
+      {
+        "usuario": "que fecha es hoy",
+        "sistema": "Estamos a Thursday, 04 de June de 2026.",
+        "intencion": "consultar_fecha",
+        "timestamp": "2026-06-04T16:54:43.818539"
+      },
+      {
+        "usuario": "chiste",
+        "sistema": "Por que los programadores confunden Halloween con Navidad? Porque Oct 31 = Dec 25.",
+        "intencion": "chiste",
+        "timestamp": "2026-06-04T16:54:43.820645"
+      }
+    ]
+  }
+]
